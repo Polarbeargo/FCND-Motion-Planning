@@ -5,7 +5,7 @@ from enum import Enum, auto
 
 import numpy as np
 
-from planning_utils import a_star, heuristic, create_grid
+from planning_utils import a_star, heuristic, create_grid, read_lat_lon
 from udacidrone import Drone
 from udacidrone.connection import MavlinkConnection
 from udacidrone.messaging import MsgID
@@ -120,9 +120,12 @@ class MotionPlanning(Drone):
         self.target_position[2] = TARGET_ALTITUDE
 
         # TODO: read lat0, lon0 from colliders into floating point values
+        flying_dataset = "colliders.csv"
+        lon0, lat0 = read_lat_lon(flying_dataset)
 
         # TODO: set home position to (lon0, lat0, 0)
-
+        self.set_home_position(lon0, lat0, 0)
+        
         # TODO: retrieve current global position
 
         # TODO: convert to current local position using global_to_local()
@@ -151,6 +154,7 @@ class MotionPlanning(Drone):
         # or move to a different search space such as a graph (not done here)
         print('Local Start and Goal: ', grid_start, grid_goal)
         path, _ = a_star(grid, heuristic, grid_start, grid_goal)
+    
         # TODO: prune path to minimize number of waypoints
         # TODO (if you're feeling ambitious): Try a different approach altogether!
 

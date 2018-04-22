@@ -139,7 +139,15 @@ def a_star(grid, h, start, goal):
         print('**********************') 
     return path[::-1], path_cost
 
+def read_lat_lon(filename):
+    """
+    Reads (lat, lon) from the first line of the `colliders.csv`.
+    """
+    with open(filename) as file:
+        latitude, longitude = file.readline().split(',') 
+        lat, lon = float(latitude.split(' ')[-1]), float(longitude.split(' ')[-1])    
 
+    return lon, lat
 
 def heuristic(position, goal_position):
     return np.linalg.norm(np.array(position) - np.array(goal_position))
