@@ -125,11 +125,12 @@ class MotionPlanning(Drone):
 
         # TODO: set home position to (lon0, lat0, 0)
         self.set_home_position(lon0, lat0, 0)
-        
+
         # TODO: retrieve current global position
 
         # TODO: convert to current local position using global_to_local()
-
+        self._north, self._east, self._down = global_to_local(self.global_position, self.global_home)
+        
         print('global home {0}, position {1}, local position {2}'.format(self.global_home, self.global_position,
                                                                          self.local_position))
         # Read in obstacle map
@@ -141,12 +142,15 @@ class MotionPlanning(Drone):
             data, TARGET_ALTITUDE, SAFETY_DISTANCE)
         print("North offset = {0}, east offset = {1}".format(
             north_offset, east_offset))
+        
         # Define starting point on the grid (this is just grid center)
         grid_start = (-north_offset, -east_offset)
+        
         # TODO: convert start position to current position rather than map center
 
         # Set goal as some arbitrary position on the grid
         grid_goal = (-north_offset + 10, -east_offset + 10)
+        
         # TODO: adapt to set goal as latitude / longitude position and convert
 
         # Run A* to find a path from start to goal
@@ -161,8 +165,11 @@ class MotionPlanning(Drone):
         # Convert path to waypoints
         waypoints = [[p[0] + north_offset, p[1] +
                       east_offset, TARGET_ALTITUDE, 0] for p in path]
+        print('Waypoint :  {}'.format(len(waypoints)))
+        
         # Set self.waypoints
         self.waypoints = waypoints
+        
         # TODO: send waypoints to sim (this is just for visualization of waypoints)
         self.send_waypoints()
 
