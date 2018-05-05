@@ -5,7 +5,7 @@ from enum import Enum, auto
 
 import numpy as np
 
-from planning_utils import a_star, heuristic, create_grid, read_lat_lon
+from planning_utils import a_star, heuristic, create_grid, read_lat_lon, prune_path
 from udacidrone import Drone
 from udacidrone.connection import MavlinkConnection
 from udacidrone.messaging import MsgID
@@ -148,10 +148,10 @@ class MotionPlanning(Drone):
         grid_start_east = int(np.ceil(east_offset - east_offset))
         grid_start_north = int(np.ceil(north_offset - north_offset))
         
-        # TODO: convert start position to current position rather than map center
+        # TODO: Convert start position to current position rather than map center
         goal_north, goal_east, goal_alt = global_to_local(self.goal_global_position, self.global_home)
         grid_goal = (int(np.ceil(goal_north - north_offset)), int(np.ceil(goal_east - east_offset)))
-        
+
         # Set goal as some arbitrary position on the grid
         grid_goal = (-north_offset + 10, -east_offset + 10)
         
@@ -164,6 +164,8 @@ class MotionPlanning(Drone):
         path, _ = a_star(grid, heuristic, grid_start, grid_goal)
     
         # TODO: prune path to minimize number of waypoints
+        path = prune_path(path)
+
         # TODO (if you're feeling ambitious): Try a different approach altogether!
 
         # Convert path to waypoints

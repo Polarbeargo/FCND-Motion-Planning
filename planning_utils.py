@@ -148,6 +148,16 @@ def read_lat_lon(filename):
         lat, lon = float(latitude.split(' ')[-1]), float(longitude.split(' ')[-1])    
 
     return lon, lat
+    
+def collinearity_check(p1, p2, p3, epsilon=1e-6):   
+    m = np.concatenate((p1, p2, p3), 0)
+    det = np.linalg.det(m)
+    return True if abs(det) < epsilon else False
+
+def prune_path(path):
+    
+
+    return path
 
 def heuristic(position, goal_position):
     return np.linalg.norm(np.array(position) - np.array(goal_position))
