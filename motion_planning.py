@@ -197,7 +197,9 @@ if __name__ == "__main__":
     parser.add_argument('--port', type=int, default=5760, help='Port number')
     parser.add_argument('--host', type=str, default='127.0.0.1',
                         help="host address, i.e. '127.0.0.1'")
-    parser.add_argument('--goal_alt', type=str, default='0.', help="altitude of goal position, i.e. '0.'")  
+    parser.add_argument('--goal_lon', type=str, help="Goal longitude")
+    parser.add_argument('--goal_lat', type=str, help="Goal latitude")
+    parser.add_argument('--goal_alt', type=str, help="Goal altitude")  
     args = parser.parse_args()
 
     conn = MavlinkConnection('tcp:{0}:{1}'.format(
