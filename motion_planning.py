@@ -22,7 +22,7 @@ class States(Enum):
 
 class MotionPlanning(Drone):
 
-    def __init__(self, connection):
+    def __init__(self, connection, goal_global_position=None):
         super().__init__(connection)
 
         self.target_position = np.array([0.0, 0.0, 0.0])
@@ -32,6 +32,7 @@ class MotionPlanning(Drone):
 
         # initial state
         self.flight_state = States.MANUAL
+        self.goal_global_position = goal_global_position
 
         # register all your callbacks here
         self.register_callback(MsgID.LOCAL_POSITION,
@@ -196,11 +197,13 @@ if __name__ == "__main__":
     parser.add_argument('--port', type=int, default=5760, help='Port number')
     parser.add_argument('--host', type=str, default='127.0.0.1',
                         help="host address, i.e. '127.0.0.1'")
+    parser.add_argument('--goal_alt', type=str, default='0.', help="altitude of goal position, i.e. '0.'")  
     args = parser.parse_args()
 
     conn = MavlinkConnection('tcp:{0}:{1}'.format(
         args.host, args.port), timeout=60)
-    drone = MotionPlanning(conn)
+    goal_global_position= (float(args.goal_lon), float(args.goal_lat), float(args.goal_alt))
+    drone = MotionPlanning(conn, goal_global_position=goal_global_position)
     time.sleep(1)
 
     drone.start()
