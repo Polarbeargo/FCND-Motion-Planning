@@ -150,13 +150,13 @@ class MotionPlanning(Drone):
         grid_start_north = int(np.ceil(north_offset - north_offset))
         
         # TODO: Convert start position to current position rather than map center
+        start_position = self.local_position[:2]
+        grid_start = (int(np.ceil(-north_offset + start_position[0])), int(np.ceil(-east_offset + start_position[1])))
+        
+        # Set goal as some arbitrary position on the grid  
+        # TODO: adapt to set goal as latitude / longitude position and convert
         goal_north, goal_east, goal_alt = global_to_local(self.goal_global_position, self.global_home)
         grid_goal = (int(np.ceil(goal_north - north_offset)), int(np.ceil(goal_east - east_offset)))
-
-        # Set goal as some arbitrary position on the grid
-        grid_goal = (-north_offset + 10, -east_offset + 10)
-        
-        # TODO: adapt to set goal as latitude / longitude position and convert
 
         # Run A* to find a path from start to goal
         # TODO: add diagonal motions with a cost of sqrt(2) to your A* implementation
