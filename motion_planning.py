@@ -122,7 +122,7 @@ class MotionPlanning(Drone):
 
         # TODO: read lat0, lon0 from colliders into floating point values
         flying_dataset = "colliders.csv"
-        lat0, lon0 = read_lat_lon(flying_dataset)
+        lon0, lat0 = read_lat_lon(flying_dataset)
         print('GPS : {lat0}, lon : {lon0}')
 
         # TODO: set home position to (lon0, lat0, 0)
