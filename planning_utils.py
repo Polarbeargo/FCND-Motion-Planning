@@ -143,13 +143,11 @@ def read_lat_lon(filename):
     """
     Reads (lat, lon) from the first line of the `colliders.csv`.
     """
-    lat, lon = 0, 0
-    with open(filename, 'r') as fd:
-        for n, line in enumerate(fd):
-            if (n == 1):
-                lat, lon = [float(x) for x in line.split(",")]
-                break
-    return lat, lon
+    with open(filename) as file:
+        latitude, longitude = file.readline().split(',') 
+        lat, lon = float(latitude.split(' ')[-1]), float(longitude.split(' ')[-1])    
+
+    return lon, lat
 
 def point(p):
     return np.array([p[0], p[1], 1.]).reshape(1, -1)
