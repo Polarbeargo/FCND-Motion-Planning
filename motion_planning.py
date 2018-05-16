@@ -5,10 +5,11 @@ from enum import Enum, auto
 
 import numpy as np
 
-from planning_utils import a_star, heuristic, create_grid, read_lat_lon, prune_path, global_to_local
+from planning_utils import a_star, heuristic, create_grid, read_lat_lon, prune_path
 from udacidrone import Drone
 from udacidrone.connection import MavlinkConnection
 from udacidrone.messaging import MsgID
+from udacidrone.frame_utils import global_to_local
 
 class States(Enum):
     MANUAL = auto()
