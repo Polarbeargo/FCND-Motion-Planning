@@ -122,14 +122,16 @@ class MotionPlanning(Drone):
 
         # TODO: read lat0, lon0 from colliders into floating point values
         flying_dataset = "colliders.csv"
-        lon0, lat0 = read_lat_lon(flying_dataset)
-        print('GPS : {lat0}, lon : {lon0}')
+        (lat0, lon0) = read_lat_lon(flying_dataset)
+        alt0 = 0
+        print("Setting home position to: [{0}, {1}, {2}]".format(lat0, lon0, alt0))
 
         # TODO: set home position to (lon0, lat0, 0)
-        self.set_home_position(lon0, lat0, 0)
-     
+        self.set_home_position(lon0, lat0, alt0)
+        
+        local_position_point = [self._longitude, self._latitude, self._altitude]
         # TODO: retrieve current global position  
-        self._north, self._east, self._down = global_to_local(self.global_position, self.global_home)
+        self._north, self._east, self._down =  global_to_local(local_position_point, self.global_home)
         
         # TODO: convert to current local position using global_to_local()
         print('global home {0}, position {1}, local position {2}'.format(self.global_home, self.global_position,
