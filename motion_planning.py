@@ -32,7 +32,6 @@ class MotionPlanning(Drone):
 
         # initial state
         self.flight_state = States.MANUAL
-        #self.goal_global_position = goal_global_position
 
         # register all your callbacks here
         self.register_callback(MsgID.LOCAL_POSITION,
@@ -129,7 +128,6 @@ class MotionPlanning(Drone):
         # TODO: set home position to (lon0, lat0, 0)
         self.set_home_position(lon0, lat0, alt0)
         
-        #local_position_point = [self._longitude, self._latitude, self._altitude]
         # TODO: retrieve current global position  
         current_point =  global_to_local(self.global_position, self.global_home)
         
