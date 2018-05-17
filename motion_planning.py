@@ -22,7 +22,7 @@ class States(Enum):
 
 class MotionPlanning(Drone):
 
-    def __init__(self, connection, goal_global_position=None):
+    def __init__(self, connection):
         super().__init__(connection)
 
         self.target_position = np.array([0.0, 0.0, 0.0])
@@ -32,7 +32,7 @@ class MotionPlanning(Drone):
 
         # initial state
         self.flight_state = States.MANUAL
-        self.goal_global_position = goal_global_position
+        #self.goal_global_position = goal_global_position
 
         # register all your callbacks here
         self.register_callback(MsgID.LOCAL_POSITION,
@@ -129,9 +129,9 @@ class MotionPlanning(Drone):
         # TODO: set home position to (lon0, lat0, 0)
         self.set_home_position(lon0, lat0, alt0)
         
-        local_position_point = [self._longitude, self._latitude, self._altitude]
+        #local_position_point = [self._longitude, self._latitude, self._altitude]
         # TODO: retrieve current global position  
-        self._north, self._east, self._down =  global_to_local(local_position_point, self.global_home)
+        current_point =  global_to_local(self.global_position, self.global_home)
         
         # TODO: convert to current local position using global_to_local()
         print('global home {0}, position {1}, local position {2}'.format(self.global_home, self.global_position,
@@ -147,7 +147,7 @@ class MotionPlanning(Drone):
             north_offset, east_offset))
         
         # Define starting point on the grid (this is just grid center)
-        grid_start = (-north_offset, -east_offset)
+        grid_start = (int(current_local[0]+north_offset), int(current_local[1]+east_offset))
         grid_start_east = int(np.ceil(east_offset - east_offset))
         grid_start_north = int(np.ceil(north_offset - north_offset))
         
