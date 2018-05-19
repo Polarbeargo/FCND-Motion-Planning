@@ -119,7 +119,10 @@ def a_star(grid, h, start, goal):
                     visited.add(next_node)
                     queue.put((new_cost, next_node))
                     branch[next_node] = (new_cost, current_node, action)
-             
+    
+    path = []
+    path_cost = 0  
+           
     if found:
         # retrace steps
         n = goal
