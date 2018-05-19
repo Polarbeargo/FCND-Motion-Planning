@@ -155,8 +155,8 @@ class MotionPlanning(Drone):
         
         # Set goal as some arbitrary position on the grid  
         # TODO: adapt to set goal as latitude / longitude position and convert
-        grid_goal = (720, 30)
-        
+        grid_goal = (287,675)
+
         # Run A* to find a path from start to goal
         # TODO: add diagonal motions with a cost of sqrt(2) to your A* implementation
         # or move to a different search space such as a graph (not done here)
