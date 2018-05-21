@@ -22,7 +22,7 @@ class States(Enum):
 
 class MotionPlanning(Drone):
 
-    def __init__(self, connection):
+    def __init__(self, connection, goal_global_gps = None):
         super().__init__(connection)
 
         self.target_position = np.array([0.0, 0.0, 0.0])
@@ -32,6 +32,7 @@ class MotionPlanning(Drone):
 
         # initial state
         self.flight_state = States.MANUAL
+        self.goal_global_gps = goal_global_gps
 
         # register all your callbacks here
         self.register_callback(MsgID.LOCAL_POSITION,
@@ -150,7 +151,8 @@ class MotionPlanning(Drone):
         
         # Set goal as some arbitrary position on the grid  
         # TODO: adapt to set goal as latitude / longitude position and convert
-        grid_goal = (-north_offset + 10, -east_offset + 10)
+        goal_east, goal_north, goal_alt = global_to_local(self.goal_global_gps, self.global_home)
+        grid_goal = (int(np.ceil(goal_north - north_offset)), int(np.ceil(goal_east - east_offset)))
 
         # Run A* to find a path from start to goal
         # TODO: add diagonal motions with a cost of sqrt(2) to your A* implementation
@@ -198,7 +200,8 @@ if __name__ == "__main__":
 
     conn = MavlinkConnection('tcp:{0}:{1}'.format(
         args.host, args.port), timeout=60)
-    drone = MotionPlanning(conn)
+    goal_global_gps = np.fromstring(f'{args.goal_lon},{args.goal_lat},{args.goal_alt}', dtype='Float64', sep=',')
+    drone = MotionPlanning(conn, goal_global_gps = goal_global_gps)
     time.sleep(1)
 
     drone.start()
