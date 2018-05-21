@@ -151,8 +151,8 @@ class MotionPlanning(Drone):
         
         # Set goal as some arbitrary position on the grid  
         # TODO: adapt to set goal as latitude / longitude position and convert
-        goal_east, goal_north, goal_alt = global_to_local(self.goal_global_gps, self.global_home)
-        grid_goal = (int(np.ceil(goal_north - north_offset)), int(np.ceil(goal_east - east_offset)))
+        global_position_gps_box = global_to_local(self.goal_global_gps, self.global_home)
+        grid_goal = (int(np.ceil(global_position_gps_box[0] - north_offset)), int(np.ceil(global_position_gps_box[1] - east_offset)))
 
         # Run A* to find a path from start to goal
         # TODO: add diagonal motions with a cost of sqrt(2) to your A* implementation
@@ -200,7 +200,7 @@ if __name__ == "__main__":
 
     conn = MavlinkConnection('tcp:{0}:{1}'.format(
         args.host, args.port), timeout=60)
-    goal_global_gps = np.fromstring(f'{args.goal_lon},{args.goal_lat},{args.goal_alt}', dtype='Float64', sep=',')
+    goal_global_gps = (float(args.goal_lon), float(args.goal_lat), float(args.goal_alt))
     drone = MotionPlanning(conn, goal_global_gps = goal_global_gps)
     time.sleep(1)
 
