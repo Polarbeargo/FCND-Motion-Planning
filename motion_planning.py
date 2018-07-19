@@ -123,11 +123,11 @@ class MotionPlanning(Drone):
         # TODO: read lat0, lon0 from colliders into floating point values
         flying_dataset = "colliders.csv"
         (lat0, lon0) = read_lat_lon(flying_dataset)
-        alt0 = 0
-        print("Setting home position to: [{0}, {1}, {2}]".format(lat0, lon0, alt0))
+        
+        print("Setting home position to: [{0}, {1}, {2}]".format(lat0, lon0, 5))
 
         # TODO: set home position to (lon0, lat0, 0)
-        self.set_home_position(lon0, lat0, alt0)
+        self.set_home_position(lon0, lat0, 5)
         
         # TODO: retrieve current global position  
         current_point =  global_to_local(self.global_position, self.global_home)
@@ -151,7 +151,7 @@ class MotionPlanning(Drone):
         
         # Set goal as some arbitrary position on the grid  
         # TODO: adapt to set goal as latitude / longitude position and convert
-        global_position_gps_box = global_to_local(self.goal_global_gps, self.global_home)
+        global_position_gps_box = global_to_local([-122.401902,37.794409,self.global_home[2]], self.global_home)
         grid_goal = (int(np.ceil(global_position_gps_box[0] - north_offset)), int(np.ceil(global_position_gps_box[1] - east_offset)))
 
         # Run A* to find a path from start to goal
@@ -195,7 +195,7 @@ if __name__ == "__main__":
                         help="host address, i.e. '127.0.0.1'")
     parser.add_argument('--goal_lon', type=str,default = '-122.397',help="Goal longitude")
     parser.add_argument('--goal_lat', type=str, default = '37.792',help="Goal latitude")
-    parser.add_argument('--goal_alt', type=str, default = '0.',help="Goal altitude")  
+    parser.add_argument('--goal_alt', type=str, default = '5',help="Goal altitude")  
     args = parser.parse_args()
 
     conn = MavlinkConnection('tcp:{0}:{1}'.format(
