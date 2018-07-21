@@ -1,5 +1,5 @@
 ## Project: 3D Motion Planning
-![Quad Image](./misc/enroute.png)
+![Quad Image](./misc/drone.png)
 
 ---
 
@@ -76,6 +76,9 @@ the code in `motion_planning.py` line[154 to 155](motion_planning.py#L154-L155)
 Update the A* implementation to include diagonal motions on the grid that have a cost of sqrt(2). In
 `a_star() function` Use `PriorityQueue` data structure to quickly and efficiently select the lowest cost partial plan from queue of all partial plans. The code is in  `planning_utils.py` line [60 to 63.](planning_utils.py#L60-L63)   
 
+```
+python motion_planning.py --goal_lat 37.792945 --goal_lon -122.397513 --goal_alt 26
+```
 ![](./misc/another_start.png)   
 
 #### 6. Cull waypoints 
