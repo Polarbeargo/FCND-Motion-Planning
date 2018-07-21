@@ -10,14 +10,15 @@
 3. Define the start and goal locations.
 4. Perform a search using A* or other search algorithm.
 5. Use a collinearity test or ray tracing method (like Bresenham) to remove unnecessary waypoints.
-6. Return waypoints in local ECEF coordinates (format for `self.all_waypoints` is [N, E, altitude, heading], where the drone???s start location corresponds to [0, 0, 0, 0].
+6. Return waypoints in local ECEF coordinates (format for `self.all_waypoints` is [N, E, altitude, heading], where the drone start location corresponds to [0, 0, 0, 0].
 7. Write it up.
 8. Congratulations!  Your Done!
 
 ### Writeup / README
 
-Demo:
+Demo:   
 
+[![Youtube Demo:](https://img.youtube.com/vi/bvQBvTjeXYQ/0.jpg)](https://www.youtube.com/watch?v=bvQBvTjeXYQ)
 
 ### Explain the Starter Code
 
